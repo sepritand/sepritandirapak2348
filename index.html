@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scientific Number Validator</title>
+  <style>
+    /* Gaya dasar */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    /* Navigation bar */
+    .navbar {
+      background-color: #734128;
+      overflow: hidden;
+    }
+    .navbar a {
+      float: left;
+      display: block;
+      color: #f2f2f2;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+    .navbar a:hover {
+      background-color: #C7A07A;
+      color: black;
+    }
+    .active {
+      background-color: #391E10;
+      color: white;
+    }
+    /* Kontainer halaman */
+    .container {
+      padding: 20px;
+    }
+    .page {
+      display: none;
+    }
+    .page.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <a href="#" id="nav-file">File</a>
+    <a href="#" id="nav-edit">Edit</a>
+    <a href="#" id="nav-run" class="active">Run</a>
+    <a href="#" id="nav-about">About Us</a>
+  </div>
+
+  <div class="container">
+    <!-- Halaman File -->
+    <div id="page-file" class="page">
+      <h2>File</h2>
+      <p>Upload file (fitur contoh, belum diimplementasikan penuh):</p>
+      <input type="file" id="fileInput">
+    </div>
+    
+    <!-- Halaman Edit -->
+    <div id="page-edit" class="page">
+      <h2>Edit</h2>
+      <p>Edit teks di sini:</p>
+      <textarea id="editor" rows="10" cols="50" placeholder="Tulis sesuatu..."></textarea>
+    </div>
+    
+    <!-- Halaman Run -->
+    <div id="page-run" class="page active">
+      <h2>Run</h2>
+      <p>Masukkan angka dalam format ilmiah (contoh: 1.23e+3 atau -121.2):</p>
+      <input type="text" id="numberInput" placeholder="Masukkan angka">
+      <button id="runButton">Run</button>
+      <p id="result"></p>
+    </div>
+    
+    <!-- Halaman About Us -->
+    <div id="page-about" class="page">
+      <h2>About Us</h2>
+      <p>Website ini dibuat sebagai tugas untuk memvalidasi angka dalam format ilmiah.<br>
+      Dikembangkan oleh tim kami.</p>
+    </div>
+  </div>
+
+  <script>
+    // Fungsi untuk menampilkan halaman sesuai menu
+    function showPage(pageId) {
+      var pages = document.querySelectorAll(".page");
+      pages.forEach(function(page) {
+        page.classList.remove("active");
+      });
+      document.getElementById(pageId).classList.add("active");
+    }
+
+    // Fungsi untuk set menu aktif
+    function setActive(navId) {
+      var navLinks = document.querySelectorAll(".navbar a");
+      navLinks.forEach(function(link) {
+        link.classList.remove("active");
+      });
+      document.getElementById(navId).classList.add("active");
+    }
+
+    // Event listener untuk navigasi
+    document.getElementById("nav-file").addEventListener("click", function(e) {
+      e.preventDefault();
+      showPage("page-file");
+      setActive("nav-file");
+    });
+    document.getElementById("nav-edit").addEventListener("click", function(e) {
+      e.preventDefault();
+      showPage("page-edit");
+      setActive("nav-edit");
+    });
+    document.getElementById("nav-run").addEventListener("click", function(e) {
+      e.preventDefault();
+      showPage("page-run");
+      setActive("nav-run");
+    });
+    document.getElementById("nav-about").addEventListener("click", function(e) {
+      e.preventDefault();
+      showPage("page-about");
+      setActive("nav-about");
+    });
+
+    // Fungsi validasi angka ilmiah
+    function isValidScientificNumber(input) {
+      input = input.trim();
+      if (input === "") return false;
+      // Regex untuk format angka (integer, desimal, atau notasi ilmiah)
+      var regex = /^[+-]?(\d+(\.\d+)?|\.\d+)([eE][+-]?\d+)?$/;
+      return regex.test(input);
+    }
+
+    // Event handler tombol Run
+    document.getElementById("runButton").addEventListener("click", function() {
+      var input = document.getElementById("numberInput").value;
+      var resultElement = document.getElementById("result");
+      if (isValidScientificNumber(input)) {
+        resultElement.textContent = "Yes, it is a number";
+      } else {
+        resultElement.textContent = "No, it is not a number";
+      }
+    });
+  </script>
+
+</body>
+</html>
